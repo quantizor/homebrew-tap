@@ -8,8 +8,8 @@
 # The version and sha256 below are whatever the last release set; treat them as
 # illustrative, since both are always overwritten on publish.
 cask "devctl" do
-  version "1.4.0"
-  sha256 "72ded082ef475ac5cc7431984ae559ab95788ddd6833c68b2b396b82dc6b7753"
+  version "1.4.1"
+  sha256 "0c1d4b307b465fc928481c8f112dfa3cb15d0b21cf92e4b233cd8041d47cf03d"
 
   url "https://github.com/quantizor/devctl/releases/download/v#{version}/devctl-#{version}.dmg"
   name "devctl"
@@ -62,6 +62,18 @@ cask "devctl" do
   ]
 
   caveats <<~EOS
+    devctl is a menu bar app with a small background agent that supervises your
+    dev servers. Homebrew installed it but does not start it; open the app once
+    to start the agent:
+
+        open -a devctl
+
+    macOS asks you to confirm the first launch (it is notarized, so this is a
+    one-time click). After that the agent starts at login and the menu bar icon
+    shows your servers. Then wire up your coding agents:
+
+        devctl hook install
+
     To remove devctl's agent hooks and CLI state as well, run `devctl uninstall`
     before uninstalling this cask.
   EOS
