@@ -8,8 +8,8 @@
 # The version and sha256 below are whatever the last release set; treat them as
 # illustrative, since both are always overwritten on publish.
 cask "devctl" do
-  version "1.4.1"
-  sha256 "0c1d4b307b465fc928481c8f112dfa3cb15d0b21cf92e4b233cd8041d47cf03d"
+  version "1.5.0"
+  sha256 "8e5712c8d450c0010c498d8ef649ed83d951b61188b1a3e7736aa342399c0fd2"
 
   url "https://github.com/quantizor/devctl/releases/download/v#{version}/devctl-#{version}.dmg"
   name "devctl"
