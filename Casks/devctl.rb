@@ -8,8 +8,8 @@
 # The version and sha256 below are whatever the last release set; treat them as
 # illustrative, since both are always overwritten on publish.
 cask "devctl" do
-  version "1.5.0"
-  sha256 "8e5712c8d450c0010c498d8ef649ed83d951b61188b1a3e7736aa342399c0fd2"
+  version "1.5.1"
+  sha256 "d3ba13f1eb849a92ee78bded616a1879fee0396a3bfa18ad3fc9afbc55008e46"
 
   url "https://github.com/quantizor/devctl/releases/download/v#{version}/devctl-#{version}.dmg"
   name "devctl"
@@ -55,6 +55,10 @@ cask "devctl" do
   zap trash: [
     "~/Library/Application Support/devctl",
     "~/Library/Caches/dev.quantizor.devctl.app",
+    "~/Library/Caches/dev.quantizor.devctld",
+    "~/Library/Caches/devctld",
+    "~/Library/HTTPStorages/dev.quantizor.devctld",
+    "~/Library/HTTPStorages/devctld",
     "~/Library/LaunchAgents/dev.quantizor.devctl.plist",
     "~/Library/Logs/devctl",
     "~/Library/Preferences/dev.quantizor.devctl.app.plist",
