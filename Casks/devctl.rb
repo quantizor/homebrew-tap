@@ -9,7 +9,7 @@
 # illustrative, since both are always overwritten on publish.
 cask "devctl" do
   version "1.5.3"
-  sha256 "823d755cf29212e440f856b6cd2626c035e0cd30edd505866e9f7fa104170227"
+  sha256 "2ff5281cfa5bf80de05fd35fb2fcf3e4fbc4f0dda025b42fd41e638d371ff5ca"
 
   url "https://github.com/quantizor/devctl/releases/download/v#{version}/devctl-#{version}.dmg"
   name "devctl"
