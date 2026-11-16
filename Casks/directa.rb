@@ -1,4 +1,4 @@
-# Canonical Homebrew cask for devctl. This is the single home for the cask's
+# Canonical Homebrew cask for directa. This is the single home for the cask's
 # structure; the release workflow (.github/workflows/bump-homebrew-cask.yml)
 # reads this file, substitutes `version` and `sha256` for the published release,
 # and writes the result to the quantizor/homebrew-tap repo. scripts/smoke-cask.sh
@@ -7,78 +7,79 @@
 #
 # The version and sha256 below are whatever the last release set; treat them as
 # illustrative, since both are always overwritten on publish.
-cask "devctl" do
-  version "1.5.3"
-  sha256 "2ff5281cfa5bf80de05fd35fb2fcf3e4fbc4f0dda025b42fd41e638d371ff5ca"
+cask "directa" do
+  version "3.1.1"
+  sha256 "375205405ab53be4c9e2eea119632abeaf33c9bfcc49252284a2db96e539d50d"
 
-  url "https://github.com/quantizor/devctl/releases/download/v#{version}/devctl-#{version}.dmg"
-  name "devctl"
+  url "https://github.com/quantizor/directa/releases/download/v#{version}/directa-#{version}.dmg"
+  name "directa"
   desc "Agent-friendly coordinator for many devservers and their configurations"
-  homepage "https://github.com/quantizor/devctl"
+  homepage "https://github.com/quantizor/directa"
 
   livecheck do
     url :url
     strategy :github_latest
   end
 
-  depends_on macos: :sonoma
+  depends_on arch: :arm64
+  depends_on macos: :tahoe
 
-  app "devctl.app"
-  binary "#{appdir}/devctl.app/Contents/Resources/devctl"
+  app "directa.app"
+  binary "#{appdir}/directa.app/Contents/Resources/directa"
 
   # This runs on every `brew upgrade`, not only on uninstall, so it is limited to
   # unregistering the background agent, which the app re-registers when brew
   # relaunches it. It must never touch agent hooks or user data: nothing restores
-  # those automatically, by design. Full removal is `devctl uninstall`.
+  # those automatically, by design. Full removal is `directa uninstall`.
   #
   # early_script rather than script, because a plain `script` runs after `quit:`,
   # and the CLI needs a live app to drive SMAppService.unregister over the deep
   # link. There is no launchctl: stanza (it would boot out the SMAppService job on
   # every upgrade) and no login_item: stanza (it cannot see a BTM registration);
-  # the agent teardown is delegated to devctl's own CLI, the only lever that
+  # the agent teardown is delegated to directa's own CLI, the only lever that
   # reaches BTM.
   #
   # Footgun worth naming: trashing the app and THEN running `brew uninstall`
   # leaves this executable missing, so uninstall raises rather than skipping.
-  # Recovery is `brew uninstall --cask --force devctl`. This is inherent to any
+  # Recovery is `brew uninstall --cask --force directa`. This is inherent to any
   # cask whose uninstall script ships inside the bundle it removes.
   uninstall early_script: {
-              executable: "#{appdir}/devctl.app/Contents/Resources/devctl",
+              executable: "#{appdir}/directa.app/Contents/Resources/directa",
               args:       ["uninstall", "--agent-only", "--json"],
             },
-            quit:         "dev.quantizor.devctl.app"
+            quit:         "dev.quantizor.directa.app"
 
   # trash:, not delete:, so removal is recoverable and needs no sudo. The bundle
   # is already gone by the time zap runs (uninstall_artifacts runs first), so
-  # nothing here can shell out to the CLI; these are the files devctl leaves in
+  # nothing here can shell out to the CLI; these are the files directa leaves in
   # the user's Library.
   zap trash: [
-    "~/Library/Application Support/devctl",
-    "~/Library/Caches/dev.quantizor.devctl.app",
-    "~/Library/Caches/dev.quantizor.devctld",
-    "~/Library/Caches/devctld",
-    "~/Library/HTTPStorages/dev.quantizor.devctld",
-    "~/Library/HTTPStorages/devctld",
-    "~/Library/LaunchAgents/dev.quantizor.devctl.plist",
-    "~/Library/Logs/devctl",
-    "~/Library/Preferences/dev.quantizor.devctl.app.plist",
-    "~/Library/Saved Application State/dev.quantizor.devctl.app.savedState",
+    "~/Library/Application Support/directa",
+    "~/Library/Caches/ddirecta",
+    "~/Library/Caches/dev.quantizor.ddirecta",
+    "~/Library/Caches/dev.quantizor.directa.app",
+    "~/Library/HTTPStorages/ddirecta",
+    "~/Library/HTTPStorages/dev.quantizor.ddirecta",
+    "~/Library/LaunchAgents/dev.quantizor.directa.plist",
+    "~/Library/Logs/directa",
+    "~/Library/Preferences/dev.quantizor.directa.app.plist",
+    "~/Library/Saved Application State/dev.quantizor.directa.app.savedState",
   ]
 
   caveats <<~EOS
-    devctl is a menu bar app with a small background agent that supervises your
+    directa is a menu bar app with a small background agent that supervises your
     dev servers. Homebrew installed it but does not start it; open the app once
     to start the agent:
 
-        open -a devctl
+        open -a directa
 
     macOS asks you to confirm the first launch (it is notarized, so this is a
     one-time click). After that the agent starts at login and the menu bar icon
     shows your servers. Then wire up your coding agents:
 
-        devctl hook install
+        directa hook install
 
-    To remove devctl's agent hooks and CLI state as well, run `devctl uninstall`
+    To remove directa's agent hooks and CLI state as well, run `directa uninstall`
     before uninstalling this cask.
   EOS
 end
